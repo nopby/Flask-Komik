@@ -24,7 +24,7 @@ NIM: 32180028
 # Fitur
 -Hak akses\
 -Tambah, Baca, Hapus, dan Edit pada Manga\
--Tambah, Baca, Hapus, Download, dan Update Link Download pada Chapter\
+-Tambah, Baca, Hapus, dan Download pada Chapter\
 -Baca dan Hapus pada Report\
 -Ubah role dan Delete pada User\
 -Login dan Registrasi
