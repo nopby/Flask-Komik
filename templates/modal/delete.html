@@ -1,0 +1,91 @@
+<!-- Modal Hapus-->
+{% if active == 'Home' %}
+{% for rows in manga.items %}
+<div class="modal fade" id="modalHapus{{ rows.id }}" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Delete Manga</h4>
+            </div>
+            <form action="{{ url_for('views.DeleteManga')}}" method="POST">
+                <div class="modal-body">
+                    <h5>Are you sure?</h5>
+                    <input type="hidden" class="form-control" name="id" required="1" value="{{ rows.id }}">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                    <button type="submit" class="btn btn-danger">Yes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% elif active == 'Read Manga'%}
+{% for rows in chapter %} 
+<div class="modal fade" id="modalHapus{{ rows.id }}" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Delete Chapter</h4>
+            </div>
+            <form action="{{ url_for('views.Delete_Chapter')}}" method="POST">
+                <div class="modal-body">
+                    <h5>Are you sure?</h5>
+                    <input type="hidden" class="form-control" name="chapter_id" required="1" value="{{ rows.id }}">
+                    <input type="hidden" class="form-control" name="manga_id" required="1" value="{{ manga.id }}">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                    <button type="submit" class="btn btn-danger">Yes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% elif active == 'Admin' %}
+{% for rows in users.items %} 
+<div class="modal fade" id="modalHapus{{ rows.id }}" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Delete Chapter</h4>
+            </div>
+            <form action="{{ url_for('views.DeleteUser')}}" method="POST">
+                <div class="modal-body">
+                    <h5>Are you sure?</h5>
+                    <input type="hidden" class="form-control" name="user_id" required="1" value="{{ rows.id }}">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                    <button type="submit" class="btn btn-danger">Yes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% elif active == 'AdminReport' %}
+{% for rows in report.items %} 
+<div class="modal fade" id="modalHapus{{ rows.id }}" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Delete Chapter</h4>
+            </div>
+            <form action="{{ url_for('views.DeleteReport')}}" method="POST">
+                <div class="modal-body">
+                    <h5>Are you sure?</h5>
+                    <input type="hidden" class="form-control" name="user_id" required="1" value="{{ rows.id }}">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                    <button type="submit" class="btn btn-danger">Yes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% endif %}

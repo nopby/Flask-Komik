@@ -1,0 +1,107 @@
+{% extends './_include/base.html' %} 
+
+{% block content %}
+<!-- PENENGAH -->
+<div class="container">
+    <div class="row justify-content-center">
+        <!-- KOLOM KONTEN -->
+        <div class="col-md-9 col-lg-12 col-xl-10">
+            <!-- CARD -->
+            <div class="card shadow-lg o-hidden border-0 my-5">
+                <!-- CARD BODY -->
+                <div class="card-body p-0">
+                    <!-- BARIS ISI CARD -->
+                    <div class="row">
+                        <!-- KOLOM 1 CARD -->
+                        <div class="col-lg-6">
+                            <div class="p-5">
+                                <div class="text-center">
+                                    <!-- JUDUL CARD -->
+                                    <h4 class="text-dark mb-4">Sign in</h4>
+                                    {% if log == True %}
+                                        {% with messages = get_flashed_messages(with_categories=true) %} 
+                                        {% if messages %} 
+                                            {% for category, message in messages %}
+                                                {% if category == 'error' %}
+                                            <div class="alert alert-danger alert-dismissable fade show" role="alert">
+                                                    {{ message }} 
+                                                <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                                {% else %}
+                                            <div class="alert alert-success alert-dismissable fade show" role="alert">
+                                                    {{ message }} 
+                                                <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endif %}
+                                        {% endwith %}
+                                    {% endif %}
+                                </div>
+                                <!-- FORM LOGIN -->
+                                <form class="user" method="post" action="{{ url_for('views.Login')}}">
+                                    <div class="form-group"><input class="form-control form-control-user" type="text" id="username" placeholder="Username" name="username" required></div>
+                                    <div class="form-group"><input class="form-control form-control-user" type="password" id="exampleInputPassword" placeholder="Password" name="password"></div>
+                                    <div class="form-group">
+                                        <div class="custom-control custom-checkbox small">
+                                            <div class="form-check"><input class="form-check-input custom-control-input" type="checkbox" id="formCheck-1" name="remember-me"><label class="form-check-label custom-control-label" for="formCheck-1">Remember Me</label></div>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-primary btn-block text-white btn-user" type="submit">Sign in</button>
+                                </form>
+                            </div>
+                        </div>
+                        <!-- KOLOM 2 CARD -->
+                        <div class="col-lg-6">
+                            <div class="p-5">
+                                <div class="text-center">
+                                    <!-- JUDUL CARD -->
+                                    <h4 class="text-dark mb-4">Create Account</h4>
+                                    {% if log == False %}
+                                        {% with messages = get_flashed_messages(with_categories=true) %} 
+                                        {% if messages %} 
+                                            {% for category, message in messages %}
+                                                {% if category == 'error' %}
+                                            <div class="alert alert-danger alert-dismissable fade show" role="alert">
+                                                    {{ message }} 
+                                                <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                                {% else %}
+                                            <div class="alert alert-success alert-dismissable fade show" role="alert">
+                                                    {{ message }} 
+                                                <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endif %}
+                                        {% endwith %}
+                                    {% endif %}
+                                </div>
+                                <!-- FORM REGISTRASI -->
+                                <form class="user" method="post" action="{{ url_for('views.Register') }}">
+                                    <div class="form-group"><input class="form-control form-control-user" type="text" id="username" placeholder="Username" name="username" required></div>
+                                    <div class="form-group"><input class="form-control form-control-user" type="email" id="email" placeholder="Email" name="email" required></div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-6 mb-3 mb-sm-0"><input class="form-control form-control-user" type="password" id="password" placeholder="Password" name="password" required></div>
+                                        <div class="col-sm-6"><input class="form-control form-control-user" type="password" id="password_repeat" placeholder="Repeat Password" name="password_repeat" required></div>
+                                    </div>
+                                    <button class="btn btn-primary btn-block text-white btn-user" type="submit">Create Account</button>
+                                    
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

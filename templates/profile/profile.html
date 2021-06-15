@@ -1,0 +1,95 @@
+{% extends './_include/base.html' %}
+
+{% block content %} 
+<div class="container mt-3">
+    <div class="card bg-dark border-light rounded-0">
+      <div class="card-header bg-dark text-light">
+        <div class="row">
+            <div class="col" style="text-align: left; margin-top: 0.5rem;">
+                <h5>
+                    Profile
+                </h5>
+            </div>
+            <div class="col" style="text-align: right">
+              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalUpload">Edit Profile</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="card bg-dark border-light rounded-0">
+      {% with messages = get_flashed_messages(with_categories=true) %} 
+    {% if messages %} 
+        {% for category, message in messages %}
+            {% if category == 'error' %}
+            <div class="alert alert-danger alert-dismissable fade show" role="alert">
+                    {{ message }} 
+                <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+                {% else %}
+            <div class="alert alert-success alert-dismissable fade show" role="alert">
+                    {{ message }} 
+                <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
+        <div class="card-header bg-dark text-light">
+            <div class="row">
+                <div class="col-sm-3" style="text-align: left;">
+                    <div class="manga-image">
+                        <img src="" class="image">
+                    </div>
+                </div>
+                <div class="col" style="text-align: left;">
+                    <h5>Sypnosis</h5>
+                    <p class="description description-border">{{ manga.description }} </p>
+                    <p class="description description-border">Genre: {{ manga.genre }} </p>
+                    <table class="table">
+                        <thead>
+                          <tr>
+                            Read Chapter
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for rows in chapter %}
+                          <tr>
+                            <td><a href="{{ url_for('views.Read_Chapter', manga_id=rows.manga.id, chapter_num=rows.chapter)}}" class="link">Chapter {{rows.chapter}}</a></td>
+                            <td>
+                                {% if rows.linkDL == None %} 
+                                <button type="submit" class="btn btn-success" disabled>Download</button>
+                                {% else %} 
+                                <a href="{{ rows.linkDL }}" class="btn btn-success" target="_blank">Download</a>
+                                {% endif %}
+                            </td>
+                            {% if user.level == 1 %}
+                            <td>
+                                <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalHapus{{ rows.id }}">Delete Chapter</button>
+                                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalEdit{{ rows.id }}">Update Link</button>
+                            </td>
+                            {% endif %}
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                </div>
+            </div>
+        </div>
+   </div>
+
+</div>  
+
+{% if user.level == 1 %}
+{% include './modal/upload.html' %}
+{% include './modal/delete.html' %}
+{% include './modal/edit.html' %}
+{% endif %}
+
+
+{% endblock %}
+

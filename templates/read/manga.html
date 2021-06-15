@@ -1,0 +1,62 @@
+{% extends './_include/base.html' %}
+
+{% block content %} 
+
+<div class="container mt-3">
+    <div class="card bg-dark border-light rounded-0">
+      <div class="card-header bg-dark text-light">
+        <div class="row">
+          <div class="col" style="text-align: left; margin-top: 0.5rem;">
+            <h5>
+              <a href="{{ url_for('views.home')}}" class="link">Manga List</a>
+              /
+              <a href="{{ url_for('views.Read_Manga', manga_id=manga.id)}}" class="link">{{manga.title}}</a>
+              /
+              <a href="{{ url_for('views.Read_Chapter', manga_id=manga.id, chapter_num=chapter_nav.page)}}" class="link">Chapter {{chapter.chapter}}</a>
+            </h5>
+          </div>
+          <div class="col" style="text-align: right;">
+            {% if chapter_nav.has_prev %}
+            <a href="{{ url_for('views.Read_Chapter', manga_id=manga.id, chapter_num=chapter_nav.prev_num) }}" class="btn btn-primary">Previous</a>
+            {% endif %}
+            {% if chapter_nav.has_next %} 
+            <a href="{{ url_for('views.Read_Chapter', manga_id=manga.id, chapter_num=chapter_nav.next_num) }}" class="btn btn-primary">Next</a>
+            {% endif %}
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    <div class="card bg-dark mb-3 rounded-0 border-0">
+        {% for rows in images %} 
+          <img src="{{ url_for('static', filename='upload/manga/'+manga.title + '/' + chapter.chapter|string + '/' + rows.image)}}" alt="">
+        {% endfor %} 
+    </div>
+    <div class="card bg-dark border-light rounded-0">
+      <div class="card-header bg-dark text-light">
+        <div class="row">
+          <div class="col" style="text-align: left; margin-top: 0.5rem;">
+            <h5>
+              <a href="{{ url_for('views.home')}}" class="link">Home</a>
+              /
+              <a href="{{ url_for('views.Read_Manga', manga_id=manga.id)}}" class="link">{{manga.title}}</a>
+              /
+              <a href="{{ url_for('views.Read_Chapter', manga_id=manga.id, chapter_num=chapter_nav.page)}}" class="link">Chapter {{chapter.chapter}}</a>
+            </h5>
+          </div>
+          <div class="col" style="text-align: right;">
+            {% if chapter_nav.has_prev %}
+            <a href="{{ url_for('views.Read_Chapter', manga_id=manga.id, chapter_num=chapter_nav.prev_num) }}" class="btn btn-primary">Previous</a>
+            {% endif %}
+            {% if chapter_nav.has_next %} 
+            <a href="{{ url_for('views.Read_Chapter', manga_id=manga.id, chapter_num=chapter_nav.next_num) }}" class="btn btn-primary">Next</a>
+            {% endif %}
+          </div>
+            
+          </div>
+        </div>
+      </div>
+    
+  </div>
+
+{% endblock %}

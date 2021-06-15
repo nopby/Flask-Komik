@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+      <!-- IMPORT LIB BOOTSTRAP 4, FONT AWESOME-->
+      <link rel="stylesheet" href="{{ url_for('static', filename='assets/bootstrap/css/bootstrap.min.css')}}">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+      <link rel="stylesheet" href="{{ url_for('static', filename='assets/fonts/fontawesome-all.min.css') }}">
+      <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+      <link rel="stylesheet" href="{{ url_for('static', filename='assets/bootstrap/css/bootstrap-datetimepicker.min.css')}}">
+      <!-- SCRIPT -->
+      
+      <!-- TITLE -->
+      <title>{% block title %} {{ title }} {% endblock %}</title>
+    </head>
+  <body class="bg-gradient-secondary">
+    {% include './_include/navbar.html' %}
+    {% block content %} {% endblock %}
+
+    
+    {% block scriptadd %} {% endblock %}
+    {% include'./_include/scripts.html' %}
+    <footer class="footer bg-dark">
+      <div class="container">
+          <div class="text-center my-auto copyright"><span style="color: white;">Copyright © Manga Online 2021</span></div>
+      </div>
+    </footer>
+  </body>
+  
+</html>

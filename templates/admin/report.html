@@ -1,0 +1,112 @@
+{% include './_include/base.html' %} 
+
+{% block content %} 
+<div class="container mt-3">
+    <div class="card bg-dark border-light rounded-0">
+      <div class="card-header bg-dark text-light">
+        <div class="row">
+          <div class="col" style="text-align: left; margin-top: 0.5rem;">
+            <h5>Report List</h5>
+          </div>
+          <div class="col">
+            </div>
+          </div>
+        </div>
+      </div>
+    <div class="card bg-dark mb-3 rounded-0">
+      
+<div class="card-body text-center">
+  {% with messages = get_flashed_messages(with_categories=true) %} 
+  {% if messages %} 
+      {% for category, message in messages %}
+          {% if category == 'error' %}
+          <div class="alert alert-danger alert-dismissable fade show" role="alert">
+                  {{ message }} 
+              <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+              {% else %}
+          <div class="alert alert-success alert-dismissable fade show" role="alert">
+                  {{ message }} 
+              <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          {% endif %}
+      {% endfor %}
+  {% endif %}
+  {% endwith %}
+  
+  <div class="container">
+      <div class="row">
+          <div class="col">
+              <div class="card bg-light border-0">
+                  <table class="table">
+                      <thead>
+                        <tr>
+                          <td>Report ID</td>
+                          <td>Description</td>
+                          <td>Date</td>
+                          <td>User ID</td>
+                          <td>Action</td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for rows in report.items %}
+                        <tr>
+                          <td>{{rows.id}}</td>
+                          <td>{{rows.description}}</td>
+                          <td>{{rows.date}}</td>
+                          <td>{{rows.user_id}}</td>
+                          <td>
+                            <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalHapus{{ rows.id }}">Delete</button>
+                        </td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="container">
+      <nav aria-label="Page Navigation" class="mangalist-nav">
+          <ul class="pagination" style="float: right;">
+              {% if report.has_prev %}
+              <li class="page-item"><a class="page-link" href="{{ url_for('views.AdminReport', report_page=report.prev_num) }}"> &lt </a></li>
+              {% else %}
+                  <li class="page-item disabled"><a class="page-link" href="#">&lt</a></li>
+              {% endif %}
+  
+              {% for page in report.iter_pages(left_edge=3, right_edge=3) %} 
+                  {% if page %} 
+                      {% if page==report.page %} 
+                      <li class="page-item active"><a class="page-link" href="{{ url_for('views.AdminReport', report_page=page)}}">{{ page }}</a></li>
+                      {% else %}
+                      <li class="page-item"><a class="page-link" href="{{ url_for('views.AdminReport', report_page=page)}}">{{ page }}</a></li>
+                      {% endif %}
+                  {% else %} 
+                  <li class="page-item active"><a class="page-link" href="{{ url_for('views.AdminReport', report_page=page)}}">...</a></li>
+                  {% endif %}
+              {% endfor %}
+              
+              {% if report.has_next %}
+                  <li class="page-item"><a class="page-link" href="{{ url_for('views.ManageUser', user_page=users.next_num) }}">&gt</a></li>
+              {% else %}
+                  <li class="page-item disabled"><a class="page-link" href="#">&gt</a></li>
+              {% endif %}
+          </ul>
+        </nav>
+  </div>
+</div>
+
+
+
+    </div>
+  </div>
+
+  {% if user.level == 1 %}
+  {% include './modal/delete.html' %}
+  {% endif %}
+{% endblock %}

@@ -1,0 +1,60 @@
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <!-- Container -->
+    <div class="container">
+    <a class="navbar-brand" href="{{ '/' }}">Manga Online</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+        <!-- NAVBAR ITEM -->
+        <li class="nav-item">
+            <a {% if active == 'Home' %}class="nav-link active"{% else %} class="nav-link" {%endif%} aria-current="page" href="{{ '/' }}">Home</a>
+        </li>
+        
+        {% if not user.is_authenticated %}
+        <li class="nav-item">
+            <a {% if active == 'Auth' %}class="nav-link active"{% else %} class="nav-link" {%endif%} class="nav-link" href="{{ url_for('views.auth') }}">Sign in</a>
+        </li>
+        {% else %} 
+        
+        {% if user.level == 1 %}
+        <li class="nav-item">
+            <a {% if active == 'User' %}class="nav-link active"{% else %} class="nav-link" {%endif%} aria-current="page" href="{{ url_for('views.AdminReport') }}">Report</a>
+        </li>
+        <li class="nav-item">
+            <a {% if active == 'Admin' %}class="nav-link active"{% else %} class="nav-link" {%endif%} aria-current="page" href="{{ url_for('views.ManageUser') }}">User</a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+            <a {% if active == 'User' %}class="nav-link active"{% else %} class="nav-link" {%endif%} aria-current="page" href="{{ url_for('views.UserReport') }}">Report</a>
+        </li>
+        {%endif%}
+        <li class="nav-item dropdown no-arrow">
+            <div class="nav-item dropdown no-arrow">
+                <a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#">
+                    <span class="d-none d-lg-inline mr-2 text-gray-600 small"></span>
+                    <img class="border rounded-circle img-profile" src="{{url_for('static', filename='assets/img/avatars/' + profile.picture )}}" style="width: 1.5rem; height: 1.5rem;">
+                </a>
+                <div class="dropdown-menu shadow dropdown-menu-right animated--grow-in">
+                    <a class="dropdown-item">
+                        <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;{{user.username}}
+                    </a>
+                    {% if user.level == 1 %}
+                    <div class="dropdown-item"><i class="fas fa-envelope fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Notification</div>
+                    {% else %}
+                    <div class="dropdown-item"><i class="fas fa-envelope fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Report</div>
+                    {% endif %}
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{{ '/Logout' }}">
+                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Logout
+                    </a>
+                </div>
+            </div>
+        </li>
+        {% endif %}
+        </ul>
+    </div>
+    </div>
+</nav>

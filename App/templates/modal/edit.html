@@ -1,0 +1,109 @@
+<!-- Modal Edit-->
+{% if active == 'Home' %}
+{% for rows in manga.items %}
+<div class="modal fade" id="modalEdit{{ rows.id }}" role="dialog" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Edit Manga</h4>
+            </div>
+            <form action="{{ url_for('views.EditManga')}}" method="POST" enctype="multipart/form-data">
+            <div class="modal-body">
+                    <div class="form-group">
+                        <label for="title">Title</label>
+                        <input type="text" class="form-control" name="title" value="{{ rows.title }}" required>
+                        <input type="hidden" class="form-control" name="id" value="{{ rows.id }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="author">Author</label>
+                        <input type="text" class="form-control" name="author" value="{{ rows.author }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="genre">Genre</label>
+                        <input type="text" class="form-control" name="genre" value="{{ rows.genre }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="status">Status</label>
+                        <input type="text" class="form-control" name="status" value="{{ rows.status }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea class="form-control" name="description" rows="3" value="{{ rows.description }}" required>{{ rows.description }}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="thumbnail">Thumbnail</label>
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="customFile" name="thumbnail" >
+                            <label class="custom-file-label" for="customFile">Choose file</label>
+                        </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-warning">Update</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% elif active=='Read Manga' %} 
+{% for rows in chapter %}
+<div class="modal fade" id="modalEdit{{ rows.id }}" role="dialog" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Update Link</h4>
+            </div>
+            <form action="{{ url_for('views.UpdateLinkDL')}}" method="POST">
+            <div class="modal-body">
+                    <div class="form-group">
+                        <label for="linkDL">Link download</label>
+                        <input type="hidden" name="chapter_id" value="{{ rows.id }}">
+                        <input type="text" class="form-control" name="linkDL" {% if chapter.linkDL == None %} value="" {% else %} value="{{ rows.linkDL }}" {% endif %} required> 
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-warning">Update</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% elif active=='Admin' %} 
+{% for rows in users.items %}
+<div class="modal fade" id="modalEdit{{ rows.id }}" role="dialog" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Update Link</h4>
+            </div>
+            <form action="{{ url_for('views.UpdateUser')}}" method="POST">
+            <div class="modal-body">
+                <label for="level">Level</label>
+                <input type="hidden" class="form-control" name="id" value="{{ rows.id }}">
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="level" id="flexRadioDefault1" value=1 {% if rows.level == 1 %} checked {% endif %}>
+                    <label class="form-check-label" for="flexRadioDefault1">
+                      1
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="level" id="flexRadioDefault2" value=2 {% if rows.level == 2 %} checked {% endif %}>
+                    <label class="form-check-label" for="flexRadioDefault2">
+                      2
+                </label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-warning">Update</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% endif %}

@@ -1,0 +1,31 @@
+<div class="modal fade" id="modalUpload" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Upload Sorted Images</h4>
+            </div>
+            <form action="{{ url_for('views.UploadChapter')}}" method="POST" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <div class="file-upload">
+                        <div class="form-group">
+                            <label for="chapter">Chapter</label>
+                            <input type="text" class="form-control" name="chapter" required>
+                        </div>
+                        <label for="title">Image(s)</label>
+                        <div class="custom-file">
+                            <input type="hidden" class="form-control" name="manga_id" required="1" value="{{ manga.id }}">
+                            <input type="hidden" class="form-control" name="manga_title" required="1" value="{{ manga.title }}">
+                            <input type="file" class="custom-file-input" id="customFile" name="files[]" multiple required>
+                            <label class="custom-file-label" for="customFile">Choose file</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-danger">Upload</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

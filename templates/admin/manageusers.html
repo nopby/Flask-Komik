@@ -1,0 +1,129 @@
+{% include './_include/base.html' %} 
+
+{% block content %} 
+<div class="container mt-3">
+    <div class="card bg-dark border-light rounded-0">
+      <div class="card-header bg-dark text-light">
+        <div class="row">
+          <div class="col" style="text-align: left; margin-top: 0.5rem;">
+            <h5>User List</h5>
+          </div>
+          <div class="col">
+            </div>
+          </div>
+        </div>
+      </div>
+    <div class="card bg-dark mb-3 rounded-0">
+      
+<div class="card-body text-center">
+  {% with messages = get_flashed_messages(with_categories=true) %} 
+  {% if messages %} 
+      {% for category, message in messages %}
+          {% if category == 'error' %}
+          <div class="alert alert-danger alert-dismissable fade show" role="alert">
+                  {{ message }} 
+              <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+              {% else %}
+          <div class="alert alert-success alert-dismissable fade show" role="alert">
+                  {{ message }} 
+              <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          {% endif %}
+      {% endfor %}
+  {% endif %}
+  {% endwith %}
+  
+  <div class="container">
+      <div class="row">
+          <div class="col">
+              <div class="card bg-light border-0">
+                  <table class="table">
+                      <thead>
+                        <tr>
+                          <td>ID</td>
+                          <td>Username</td>
+                          <td>Email</td>
+                          <td>Level</td>
+                          <td>Active</td>
+                          <td>Last Active</td>
+                          <td>Created at</td>
+                          <td>Action</td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for rows in users.items %}
+                        <tr>
+                          <td>{{rows.id}}</td>
+                          <td>{{rows.username}}</td>
+                          <td>{{rows.email}}</td>
+                          <td>{{rows.level}}</td>
+                          <td>
+                              <img 
+                              {% if rows.active == 1 %}
+                              src="{{ url_for('static', filename='assets/img/UserActive/active.png')}}" alt="active.png"
+                              {% else %}
+                              src="{{ url_for('static', filename='assets/img/UserActive/inactive.png')}}" alt="inactive.png"
+                              {% endif %}
+                              class="user-active"
+                              >
+                          </td>
+                          <td>{{rows.last_active}}</td>
+                          <td>{{rows.created_at}}</td>
+                          <td>
+                              <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalHapus{{ rows.id }}">Delete</button>
+                              <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalEdit{{ rows.id }}">Update</button>
+                          </td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="container">
+      <nav aria-label="Page Navigation" class="mangalist-nav">
+          <ul class="pagination" style="float: right;">
+              {% if users.has_prev %}
+              <li class="page-item"><a class="page-link" href="{{ url_for('views.ManageUser', user_page=users.prev_num) }}"> &lt </a></li>
+              {% else %}
+                  <li class="page-item disabled"><a class="page-link" href="#">&lt</a></li>
+              {% endif %}
+  
+              {% for page in users.iter_pages(left_edge=3, right_edge=3) %} 
+                  {% if page %} 
+                      {% if page==users.page %} 
+                      <li class="page-item active"><a class="page-link" href="{{ url_for('views.ManageUser', user_page=page)}}">{{ page }}</a></li>
+                      {% else %}
+                      <li class="page-item"><a class="page-link" href="{{ url_for('views.ManageUser', user_page=page)}}">{{ page }}</a></li>
+                      {% endif %}
+                  {% else %} 
+                  <li class="page-item active"><a class="page-link" href="{{ url_for('views.ManageUser', user_page=page)}}">...</a></li>
+                  {% endif %}
+              {% endfor %}
+              
+              {% if users.has_next %}
+                  <li class="page-item"><a class="page-link" href="{{ url_for('views.ManageUser', user_page=users.next_num) }}">&gt</a></li>
+              {% else %}
+                  <li class="page-item disabled"><a class="page-link" href="#">&gt</a></li>
+              {% endif %}
+          </ul>
+        </nav>
+  </div>
+</div>
+
+
+
+    </div>
+  </div>
+
+  {% if user.level == 1 %}
+  {% include './modal/edit.html' %}
+  {% include './modal/delete.html' %}
+  {% endif %}
+{% endblock %}

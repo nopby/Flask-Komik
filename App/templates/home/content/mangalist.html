@@ -1,0 +1,87 @@
+<div class="card-body text-center">
+    {% with messages = get_flashed_messages(with_categories=true) %} 
+    {% if messages %} 
+        {% for category, message in messages %}
+            {% if category == 'error' %}
+            <div class="alert alert-danger alert-dismissable fade show" role="alert">
+                    {{ message }} 
+                <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+                {% else %}
+            <div class="alert alert-success alert-dismissable fade show" role="alert">
+                    {{ message }} 
+                <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
+    
+    <div class="container">
+        {% for rows in manga.items|batch(5) %}
+        <div class="row">
+            {% for cols in rows %}
+            <div class="col">
+                <div class="card bg-dark border-0">
+                    
+                        <div class="manga-thumbnail">
+                            <a href="{{ url_for('views.Read_Manga', manga_id=cols.id)}}">
+                                <img src="{{ url_for('static', filename = cols.folder_path + '/' + cols.thumbnail )}}" class="image">
+                                <div class="title">
+                                    {{ cols.title }}
+                                </div>
+                                <div class="genre">
+                                    {{ cols.genre}}
+                                </div>
+                            </a>
+                        </div>
+                    {% if user.level == 1%}
+                    <div class="button">
+                        <button class="btn-thumbnail-edit" data-bs-toggle="modal" data-bs-target="#modalEdit{{ cols.id }}">Edit</button>
+                        <button class="btn-thumbnail-delete" data-bs-toggle="modal" data-bs-target="#modalHapus{{ cols.id }}">Delete</button>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+    <div class="container">
+        <nav aria-label="Page Navigation" class="mangalist-nav">
+            <ul class="pagination" style="float: right;">
+                {% if manga.has_prev %}
+                <li class="page-item"><a class="page-link" href="{{ url_for('views.home', page=manga.prev_num) }}"> &lt </a></li>
+                {% else %}
+                    <li class="page-item disabled"><a class="page-link" href="#">&lt</a></li>
+                {% endif %}
+    
+                {% for page in manga.iter_pages(left_edge=3, right_edge=3) %} 
+                    {% if page %} 
+                        {% if page==manga.page %} 
+                        <li class="page-item active"><a class="page-link" href="{{ url_for('views.home', page=page)}}">{{ page }}</a></li>
+                        {% else %}
+                        <li class="page-item"><a class="page-link" href="{{ url_for('views.home', page=page)}}">{{ page }}</a></li>
+                        {% endif %}
+                    {% else %} 
+                    <li class="page-item active"><a class="page-link" href="{{ url_for('views.home', page=page)}}">...</a></li>
+                    {% endif %}
+                {% endfor %}
+                {% if manga.has_next %}
+                    <li class="page-item"><a class="page-link" href="{{ url_for('views.home', page=manga.next_num) }}">&gt</a></li>
+                {% else %}
+                    <li class="page-item disabled"><a class="page-link" href="#">&gt</a></li>
+                {% endif %}
+            </ul>
+          </nav>
+    </div>
+</div>
+
+{% if user.level == 1 %}
+{% include './modal/edit.html' %}
+{% include './modal/delete.html' %}
+{% endif %}

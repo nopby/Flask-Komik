@@ -1,0 +1,42 @@
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card">
+            
+            <div class="card-header">
+              User Report
+            </div>
+            {% with messages = get_flashed_messages(with_categories=true) %} 
+                {% if messages %} 
+                    {% for category, message in messages %}
+                        {% if category == 'error' %}
+                        <div class="alert alert-danger alert-dismissable fade show" role="alert">
+                            {{ message }} 
+                            <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        {% else %}
+                        <div class="alert alert-success alert-dismissable fade show" role="alert">
+                            {{ message }} 
+                            <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            <div class="card-body">
+                <form action="{{ url_for('views.UserReport') }}" method="POST">
+                    <div class="form-floating">
+                        <label for="text">Comments</label>
+                        <textarea class="form-control" placeholder="Leave a comment here" id="text" name="text" rows="10" cols="10"></textarea>
+                      </div>
+                    <div class="btn-report mt-3" style="text-align: right;">
+                        <button type="submit" class="btn btn-warning">Report</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
